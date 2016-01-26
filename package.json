@@ -4,7 +4,8 @@
   "description": "...",
   "main": "router.js",
   "scripts": {
-    "start": "node router.js"
+    "start": "node router.js",
+    "client": "node client.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,8 @@
   },
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta6"
+  },
+  "dependencies": {
+    "winston": "^2.1.1"
   }
 }
