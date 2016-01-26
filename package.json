@@ -1,0 +1,21 @@
+{
+  "name": "tcp-router",
+  "version": "1.0.0",
+  "description": "...",
+  "main": "router.js",
+  "scripts": {
+    "start": "node router.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheldarr/tcp-router.git"
+  },
+  "author": "sheldarr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sheldarr/tcp-router/issues"
+  },
+  "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6"
+  }
+}
