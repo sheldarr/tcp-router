@@ -1,30 +1,36 @@
 const net = require('net');
 const winston = require('winston');
 
+const ActionTypes = require('./actionTypes');
+
+const serverAddress = '127.0.0.1';
 const port = 8080;
 
-var logger = new(winston.Logger)({
+var logger = new (winston.Logger)({
     transports: [
-        new(winston.transports.Console)(),
-        new(winston.transports.File)({filename: 'client.log'})
+        new (winston.transports.Console)(),
+        new (winston.transports.File)({filename: 'client.log'})
     ]
 });
 
 var client = new net.Socket();
 
-client.connect(port, '127.0.0.1', () => {
-    logger.info('Connected');
+client.connect(port, serverAddress, () => {
+    logger.info(`Connected to ${serverAddress}:${port}`);
 
-    client.write('Hello server');
+    var handshake = {
+        type: ActionTypes.HANDSHAKE
+    };
+
+    client.write(JSON.stringify(handshake));
 });
 
-client.on('data', function(data) {
-
+client.on('data', (data) => {
     winston.info('Received: ' + data);
 
     client.destroy();
 });
 
-client.on('close', function() {
+client.on('close', () => {
     logger.info('Connection closed');
 });

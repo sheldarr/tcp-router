@@ -1,5 +1,6 @@
 const ActionTypes = {
-    CREATE_SESSION: 'CREATE_SESSION'
+    CREATE_SESSION: 'CREATE_SESSION',
+    HANDSHAKE: 'HANDSHAKE'
 };
 
-export default ActionTypes;
+module.exports = ActionTypes;
