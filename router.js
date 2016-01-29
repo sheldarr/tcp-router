@@ -3,15 +3,15 @@ const winston = require('winston');
 
 const port = 8080;
 
-var logger = new(winston.Logger)({
+var logger = new (winston.Logger)({
     transports: [
-        new(winston.transports.Console)(),
-        new(winston.transports.File)({filename: 'router.log'})
+        new (winston.transports.Console)(),
+        new (winston.transports.File)({filename: 'router.log'})
     ]
 });
 
 const server = net.createServer((connection) => {
-    winston.info('Client connected');
+    logger.info('Client connected');
 
     connection.on('end', () => {
         logger.info('Client disconnected');
