@@ -12,6 +12,11 @@ const clientReducer = (state, action) => {
             }
         });
 
+    case ActionTypes.HANDSHAKE_CONFIRM:
+        return Object.assign({}, state, {
+            command: () => {}
+        });
+
     case ActionTypes.HANDSHAKE_REQUEST:
         return Object.assign({}, state, {
             command: () => {
@@ -21,8 +26,24 @@ const clientReducer = (state, action) => {
             }
         });
 
+    case ActionTypes.HEARTBEAT_CONFIRM:
+        return Object.assign({}, state, {
+            command: () => {}
+        });
+
+    case ActionTypes.HEARTBEAT_REQUEST:
+        return Object.assign({}, state, {
+            command: () => {
+                action.client.write(JSON.stringify({
+                    type: ActionTypes.HEARTBEAT_REQUEST
+                }));
+            }
+        });
+
     default:
-        return state;
+        return Object.assign({}, state, {
+            command: () => {}
+        });
     }
 };
 

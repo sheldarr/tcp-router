@@ -22,6 +22,15 @@ const routerReducer = (state, action) => {
             }
         });
 
+    case ActionTypes.HEARTBEAT_REQUEST:
+        return Object.assign({}, state, {
+            command: () => {
+                action.client.write(JSON.stringify({
+                    type: ActionTypes.HEARTBEAT_CONFIRM
+                }));
+            }
+        });
+
     default:
         return state;
     }

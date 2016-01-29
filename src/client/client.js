@@ -21,6 +21,14 @@ clientStore.subscribe(() => {
 });
 
 var client = new net.Socket();
+var stdin = process.openStdin();
+
+stdin.on('data', () => {
+    clientStore.dispatch({
+        type: ActionTypes.HEARTBEAT_REQUEST,
+        client: client
+    });
+});
 
 client.connect(port, serverAddress, () => {
     logger.info(`Connected to ${serverAddress}:${port}`);
@@ -33,6 +41,12 @@ client.connect(port, serverAddress, () => {
 
 client.on('data', (data) => {
     winston.info(`${serverAddress}:${port} > ${data}`);
+
+    var action = Object.assign(JSON.parse(data), {
+        client
+    });
+
+    clientStore.dispatch(action);
 });
 
 client.on('close', () => {
