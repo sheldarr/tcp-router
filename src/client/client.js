@@ -2,6 +2,7 @@ const net = require('net');
 const winston = require('winston');
 
 const ActionTypes = require('../actionTypes');
+const clientStore = require('./clientStore');
 
 const serverAddress = '127.0.0.1';
 const port = 8080;
@@ -13,16 +14,21 @@ var logger = new (winston.Logger)({
     ]
 });
 
+clientStore.subscribe(() => {
+    var state = clientStore.getState();
+
+    state.command();
+});
+
 var client = new net.Socket();
 
 client.connect(port, serverAddress, () => {
     logger.info(`Connected to ${serverAddress}:${port}`);
 
-    var handshake = {
-        type: ActionTypes.HANDSHAKE_REQUEST
-    };
-
-    client.write(JSON.stringify(handshake));
+    clientStore.dispatch({
+        type: ActionTypes.CONNECTED_TO_SERVER,
+        client: client
+    });
 });
 
 client.on('data', (data) => {

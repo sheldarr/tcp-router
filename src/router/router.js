@@ -11,8 +11,6 @@ var logger = new (winston.Logger)({
     ]
 });
 
-var clients = [];
-
 routerStore.subscribe(() => {
     var state = routerStore.getState();
 
@@ -26,8 +24,6 @@ const server = net.createServer((connection) => {
 
     logger.info(`${client.name} connected`);
 
-    clients.push(client);
-
     client.on('data', (data) => {
         logger.info(`${client.name} > ${data}`);
 
@@ -40,7 +36,11 @@ const server = net.createServer((connection) => {
 
     client.on('end', () => {
         logger.info(`Client ${client.name} disconnected`);
-        clients.splice(clients.indexOf(client), 1);
+
+        routerStore.dispatch({
+            client,
+            type: 'CLIENT_DISCONNECTED'
+        });
     });
 });
 

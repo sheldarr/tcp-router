@@ -1,20 +1,19 @@
 const ActionTypes = require('../actionTypes');
 
-const routerReducer = (state, action) => {
+const clientReducer = (state, action) => {
     switch (action.type) {
 
-    case ActionTypes.CLIENT_DISCONNECTED:
+    case ActionTypes.CONNECTED_TO_SERVER:
         return Object.assign({}, state, {
-            clients: state.clients.splice(state.clients.indexOf(action.client), 1),
-            command: () => {}
+            command: () => {
+                action.client.write(JSON.stringify({
+                    type: ActionTypes.HANDSHAKE_REQUEST
+                }));
+            }
         });
 
     case ActionTypes.HANDSHAKE_REQUEST:
         return Object.assign({}, state, {
-            clients: [
-                state.client,
-                ...state.clients
-            ],
             command: () => {
                 action.client.write(JSON.stringify({
                     type: ActionTypes.HANDSHAKE_CONFIRM
@@ -27,4 +26,4 @@ const routerReducer = (state, action) => {
     }
 };
 
-module.exports = routerReducer;
+module.exports = clientReducer;

@@ -3,8 +3,8 @@ const routerReducer = require('./routerReducer');
 
 const initialState = [
     {
-        command: () => {},
-        sessions: []
+        clients: [],
+        command: () => {}
     }
 ];
 
