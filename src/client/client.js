@@ -1,7 +1,7 @@
 const net = require('net');
 const winston = require('winston');
 
-const ActionTypes = require('./actionTypes');
+const ActionTypes = require('../actionTypes');
 
 const serverAddress = '127.0.0.1';
 const port = 8080;
@@ -19,7 +19,7 @@ client.connect(port, serverAddress, () => {
     logger.info(`Connected to ${serverAddress}:${port}`);
 
     var handshake = {
-        type: ActionTypes.HANDSHAKE
+        type: ActionTypes.HANDSHAKE_REQUEST
     };
 
     client.write(JSON.stringify(handshake));

@@ -2,10 +2,10 @@
   "name": "tcp-router",
   "version": "1.0.0",
   "description": "...",
-  "main": "router.js",
+  "main": "./src/router/router.js",
   "scripts": {
-    "start": "node router.js",
-    "client": "node client.js"
+    "start": "node ./src/router/router.js",
+    "client": "node ./src/client/client.js"
   },
   "repository": {
     "type": "git",
