@@ -10,4 +10,4 @@ const GuidGenerator = {
     }
 };
 
-export default GuidGenerator;
+module.exports = GuidGenerator;

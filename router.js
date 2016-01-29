@@ -1,5 +1,6 @@
 const net = require('net');
 const winston = require('winston');
+const routerStore = require('./routerStore');
 
 const port = 8080;
 
@@ -12,19 +13,29 @@ var logger = new (winston.Logger)({
 
 var clients = [];
 
-const server = net.createServer((connection) => {
-    logger.info('Client connected');
+routerStore.subscribe(() => {
+    var state = routerStore.getState();
 
+    state.command();
+});
+
+const server = net.createServer((connection) => {
     var client = Object.assign(connection, {
         name: `${connection.remoteAddress}:${connection.remotePort}`
     });
 
-    clients.push(client);
+    logger.info(`${client.name} connected`);
 
-    client.write(`Welcome ${client.name}\n`);
+    clients.push(client);
 
     client.on('data', (data) => {
         logger.info(`${client.name} > ${data}`);
+
+        var action = Object.assign(JSON.parse(data), {
+            client
+        });
+
+        routerStore.dispatch(action);
     });
 
     client.on('end', () => {

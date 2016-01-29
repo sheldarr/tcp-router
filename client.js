@@ -26,11 +26,9 @@ client.connect(port, serverAddress, () => {
 });
 
 client.on('data', (data) => {
-    winston.info('Received: ' + data);
-
-    client.destroy();
+    winston.info(`${serverAddress}:${port} > ${data}`);
 });
 
 client.on('close', () => {
-    logger.info('Connection closed');
+    logger.info(`Connection with ${serverAddress}:${port} closed`);
 });

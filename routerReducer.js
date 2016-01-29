@@ -1,7 +1,7 @@
-import ActionTypes from './actionTypes';
-import GuidGenerator from './guidGenerator';
+const ActionTypes = require('./actionTypes');
+const GuidGenerator = require('./guidGenerator');
 
-export default function routerReduver (state, action) {
+const routerReducer = (state, action) => {
     switch (action.type) {
 
     case ActionTypes.CREATE_ACTION:
@@ -12,7 +12,18 @@ export default function routerReduver (state, action) {
             ...state
         ];
 
+    case ActionTypes.HANDSHAKE:
+        return Object.assign({}, state, {
+            command: function () {
+                action.client.write(JSON.stringify({
+                    type: ActionTypes.HANDSHAKE
+                }));
+            }
+        });
+
     default:
         return state;
     }
-}
+};
+
+module.exports = routerReducer;

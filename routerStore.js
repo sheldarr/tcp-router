@@ -1,12 +1,13 @@
-import { createStore } from 'redux';
-import routerReducer from 'routerReducer';
+const redux = require('redux');
+const routerReducer = require('./routerReducer');
 
 const initialState = [
     {
+        command: () => {},
         sessions: []
     }
 ];
 
-const routerStore = createStore(routerReducer, initialState);
+const routerStore = redux.createStore(routerReducer, initialState);
 
-export default routerStore;
+module.exports = routerStore;
