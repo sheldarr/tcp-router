@@ -2,7 +2,7 @@ const net = require('net');
 const winston = require('winston');
 
 const ActionTypes = require('../actionTypes');
-const clientStore = require('./clientStore');
+const store = require('./store');
 
 const serverAddress = '127.0.0.1';
 const port = 8080;
@@ -14,8 +14,8 @@ var logger = new (winston.Logger)({
     ]
 });
 
-clientStore.subscribe(() => {
-    var state = clientStore.getState();
+store.subscribe(() => {
+    var state = store.getState();
 
     state.command();
 });
@@ -24,7 +24,7 @@ var client = new net.Socket();
 var stdin = process.openStdin();
 
 stdin.on('data', () => {
-    clientStore.dispatch({
+    store.dispatch({
         type: ActionTypes.HEARTBEAT_REQUEST,
         client: client
     });
@@ -33,7 +33,7 @@ stdin.on('data', () => {
 client.connect(port, serverAddress, () => {
     logger.info(`Connected to ${serverAddress}:${port}`);
 
-    clientStore.dispatch({
+    store.dispatch({
         type: ActionTypes.CONNECTED_TO_SERVER,
         client: client
     });
@@ -46,7 +46,7 @@ client.on('data', (data) => {
         client
     });
 
-    clientStore.dispatch(action);
+    store.dispatch(action);
 });
 
 client.on('close', () => {

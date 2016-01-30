@@ -1,6 +1,6 @@
 const ActionTypes = require('../actionTypes');
 
-const clientReducer = (state, action) => {
+const reducer = (state, action) => {
     switch (action.type) {
 
     case ActionTypes.CONNECTED_TO_SERVER:
@@ -47,4 +47,4 @@ const clientReducer = (state, action) => {
     }
 };
 
-module.exports = clientReducer;
+module.exports = reducer;
