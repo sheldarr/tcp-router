@@ -1,7 +1,7 @@
 const Commands = require('./commands');
 const RouterCommands = require('../router/commands');
 
-function Dispatcher (client) {
+function Dispatcher (client, onMessage) {
     this.dispatch = (command) => {
         switch (command.type) {
 
@@ -13,6 +13,7 @@ function Dispatcher (client) {
             break;
 
         case RouterCommands.MESSAGE:
+            onMessage(command.message);
             break;
 
         case Commands.SEND_HANDSHAKE_REQUEST:
