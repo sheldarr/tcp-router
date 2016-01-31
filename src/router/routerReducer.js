@@ -2,6 +2,18 @@ const ActionTypes = require('../actionTypes');
 
 const routerReducer = (state, action) => {
     switch (action.type) {
+    case ActionTypes.BROADCAST:
+        return Object.assing({}, state, {
+            command: () => {
+                state.clients.forEach(function (client) {
+                    if (client === action.client) {
+                        return;
+                    }
+
+                    client.write(action.message);
+                });
+            }
+        });
 
     case ActionTypes.CLIENT_DISCONNECTED:
         return Object.assign({}, state, {

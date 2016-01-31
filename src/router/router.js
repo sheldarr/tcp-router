@@ -47,12 +47,3 @@ const server = net.createServer((connection) => {
 server.listen(port, () => {
     logger.info(`Server is listening on port: ${port}`);
 });
-
-// broadcast(socket.name + " joined the chat\n", socket);
-// // Send a message to all clients
-// function broadcast(message, sender) {
-//   clients.forEach(function (client) {
-//     // Don't want to send it to sender
-//     if (client === sender) return;
-//     client.write(message);
-//   });
