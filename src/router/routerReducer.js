@@ -3,7 +3,7 @@ const ActionTypes = require('../actionTypes');
 const routerReducer = (state, action) => {
     switch (action.type) {
     case ActionTypes.BROADCAST:
-        return Object.assing({}, state, {
+        return Object.assign({}, state, {
             command: () => {
                 state.clients.forEach(function (client) {
                     if (client === action.client) {

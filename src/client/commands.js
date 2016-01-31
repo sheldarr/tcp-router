@@ -1,0 +1,7 @@
+const Commands = {
+    BROADCAST: 'BROADCAST',
+    SEND_HANDSHAKE_REQUEST: 'SEND_HANDSHAKE_REQUEST',
+    SEND_HEARTBEAT_REQUEST: 'SEND_HEARTBEAT_REQUEST'
+};
+
+module.exports = Commands;

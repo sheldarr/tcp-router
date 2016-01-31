@@ -1,8 +1,8 @@
 const net = require('net');
 const winston = require('winston');
 
-const ActionTypes = require('../actionTypes');
-const store = require('./store');
+const Commands = require('./commands');
+const Dispatcher = require('./dispatcher');
 
 const serverAddress = '127.0.0.1';
 const port = 8080;
@@ -14,29 +14,19 @@ var logger = new (winston.Logger)({
     ]
 });
 
-store.subscribe(() => {
-    var state = store.getState();
+const client = new net.Socket();
+const dispatcher = new Dispatcher(client);
+const stdin = process.openStdin();
 
-    state.command();
-});
-
-var client = new net.Socket();
-var stdin = process.openStdin();
-
-stdin.on('data', () => {
-    store.dispatch({
-        type: ActionTypes.HEARTBEAT_REQUEST,
-        client: client
+stdin.on('data', (data) => {
+    dispatcher.dispatch({
+        message: data.toString(),
+        type: Commands.BROADCAST
     });
 });
 
 client.connect(port, serverAddress, () => {
     logger.info(`Connected to ${serverAddress}:${port}`);
-
-    store.dispatch({
-        type: ActionTypes.CONNECTED_TO_SERVER,
-        client: client
-    });
 });
 
 client.on('data', (data) => {
@@ -46,7 +36,7 @@ client.on('data', (data) => {
         client
     });
 
-    store.dispatch(action);
+    dispatcher.dispatch(action);
 });
 
 client.on('close', () => {

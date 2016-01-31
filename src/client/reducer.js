@@ -1,49 +1,9 @@
-const ActionTypes = require('../actionTypes');
+const Commands = require('./commands');
 
-const reducer = (state, action) => {
-    switch (action.type) {
-
-    case ActionTypes.CONNECTED_TO_SERVER:
-        return Object.assign({}, state, {
-            command: () => {
-                action.client.write(JSON.stringify({
-                    type: ActionTypes.HANDSHAKE_REQUEST
-                }));
-            }
-        });
-
-    case ActionTypes.HANDSHAKE_CONFIRM:
-        return Object.assign({}, state, {
-            command: () => {}
-        });
-
-    case ActionTypes.HANDSHAKE_REQUEST:
-        return Object.assign({}, state, {
-            command: () => {
-                action.client.write(JSON.stringify({
-                    type: ActionTypes.HANDSHAKE_CONFIRM
-                }));
-            }
-        });
-
-    case ActionTypes.HEARTBEAT_CONFIRM:
-        return Object.assign({}, state, {
-            command: () => {}
-        });
-
-    case ActionTypes.HEARTBEAT_REQUEST:
-        return Object.assign({}, state, {
-            command: () => {
-                action.client.write(JSON.stringify({
-                    type: ActionTypes.HEARTBEAT_REQUEST
-                }));
-            }
-        });
-
+const reducer = (state, command) => {
+    switch (command.type) {
     default:
-        return Object.assign({}, state, {
-            command: () => {}
-        });
+        break;
     }
 };
 
