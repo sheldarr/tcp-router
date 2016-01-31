@@ -1,6 +1,7 @@
 const net = require('net');
 const winston = require('winston');
-const routerStore = require('./routerStore');
+
+const Dispatcher = require('./Dispatcher');
 
 const port = 8080;
 
@@ -11,11 +12,7 @@ var logger = new (winston.Logger)({
     ]
 });
 
-routerStore.subscribe(() => {
-    var state = routerStore.getState();
-
-    state.command();
-});
+const dispatcher = new Dispatcher();
 
 const server = net.createServer((connection) => {
     var client = Object.assign(connection, {
@@ -27,20 +24,15 @@ const server = net.createServer((connection) => {
     client.on('data', (data) => {
         logger.info(`${client.name} > ${data}`);
 
-        var action = Object.assign(JSON.parse(data), {
+        var command = Object.assign(JSON.parse(data), {
             client
         });
 
-        routerStore.dispatch(action);
+        dispatcher.dispatch(command);
     });
 
     client.on('end', () => {
         logger.info(`Client ${client.name} disconnected`);
-
-        routerStore.dispatch({
-            client,
-            type: 'CLIENT_DISCONNECTED'
-        });
     });
 });
 

@@ -3,6 +3,7 @@ const winston = require('winston');
 
 const Commands = require('./commands');
 const Dispatcher = require('./dispatcher');
+const RouterCommands = require('../router/commands');
 
 const serverAddress = '127.0.0.1';
 const port = 8080;
@@ -19,6 +20,8 @@ const dispatcher = new Dispatcher(client);
 const stdin = process.openStdin();
 
 stdin.on('data', (data) => {
+    logger.info(`${serverAddress}:${port} > ${data}`);
+
     dispatcher.dispatch({
         message: data.toString(),
         type: Commands.BROADCAST
@@ -27,16 +30,24 @@ stdin.on('data', (data) => {
 
 client.connect(port, serverAddress, () => {
     logger.info(`Connected to ${serverAddress}:${port}`);
+
+    client.write(JSON.stringify({
+        type: RouterCommands.HANDSHAKE_REQUEST
+    }));
+
+    client.write(JSON.stringify({
+        type: RouterCommands.HEARTBEAT_REQUEST
+    }));
 });
 
 client.on('data', (data) => {
     winston.info(`${serverAddress}:${port} > ${data}`);
 
-    var action = Object.assign(JSON.parse(data), {
+    var command = Object.assign(JSON.parse(data), {
         client
     });
 
-    dispatcher.dispatch(action);
+    dispatcher.dispatch(command);
 });
 
 client.on('close', () => {

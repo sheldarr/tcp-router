@@ -1,5 +1,5 @@
 const Commands = require('./commands');
-const RouterCommands = require('../routerCommands');
+const RouterCommands = require('../router/commands');
 
 function Dispatcher (client) {
     this.dispatch = (command) => {
