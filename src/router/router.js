@@ -34,6 +34,22 @@ const server = net.createServer((connection) => {
     client.on('end', () => {
         logger.info(`Client ${client.name} disconnected`);
     });
+
+    client.on('error', (error) => {
+        logger.error(error);
+    });
+
+    client.on('close', (had_error) => {
+        logger.info(`Connection with ${client.name} closed`);
+    });
+});
+
+server.on('error', (error) => {
+    logger.error(error);
+});
+
+server.on('close', () => {
+    logger.info('Server closed');
 });
 
 server.listen(port, () => {

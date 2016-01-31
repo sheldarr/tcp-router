@@ -50,6 +50,10 @@ client.on('data', (data) => {
     dispatcher.dispatch(command);
 });
 
+client.on('error', (error) => {
+    logger.error(error);
+});
+
 client.on('close', () => {
     logger.info(`Connection with ${serverAddress}:${port} closed`);
 });
