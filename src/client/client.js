@@ -24,7 +24,7 @@ stdin.on('data', (data) => {
 
     dispatcher.dispatch({
         message: data.toString(),
-        type: Commands.BROADCAST
+        type: RouterCommands.BROADCAST
     });
 });
 

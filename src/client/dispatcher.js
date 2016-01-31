@@ -5,11 +5,14 @@ function Dispatcher (client) {
     this.dispatch = (command) => {
         switch (command.type) {
 
-        case Commands.BROADCAST:
+        case RouterCommands.BROADCAST:
             client.write(JSON.stringify({
                 message: command.message,
                 type: RouterCommands.BROADCAST
             }));
+            break;
+
+        case RouterCommands.MESSAGE:
             break;
 
         case Commands.SEND_HANDSHAKE_REQUEST:

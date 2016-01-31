@@ -13,7 +13,10 @@ function Dispatcher () {
                     return;
                 }
 
-                client.write(command.message);
+                client.write(JSON.stringify({
+                    message: command.message,
+                    type: Commands.MESSAGE
+                }));
             });
 
             break;
