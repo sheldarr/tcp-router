@@ -21,6 +21,10 @@ function Dispatcher () {
 
             break;
 
+        case Commands.CONNECTION_CLOSED:
+            store.dispatch(command);
+            break;
+
         case Commands.HANDSHAKE_REQUEST:
             store.dispatch(command);
 

@@ -1,11 +1,12 @@
+const _ = require('lodash');
 const Commands = require('./commands');
 
 const reducer = (state, command) => {
     switch (command.type) {
 
-    case Commands.CLIENT_DISCONNECTED:
+    case Commands.CONNECTION_CLOSED:
         return Object.assign({}, state, {
-            clients: state.clients.splice(state.clients.indexOf(command.client), 1)
+            clients: _.remove(state.clients, (client) => { client === command.client; })
         });
 
     case Commands.HANDSHAKE_REQUEST:

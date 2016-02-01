@@ -1,6 +1,7 @@
 const net = require('net');
 const winston = require('winston');
 
+const Commands = require('./Commands');
 const Dispatcher = require('./Dispatcher');
 
 const port = 8080;
@@ -41,6 +42,13 @@ const server = net.createServer((connection) => {
 
     client.on('close', (had_error) => {
         logger.info(`Connection with ${client.name} closed`);
+
+        var command = {
+            client,
+            type: Commands.CONNECTION_CLOSED
+        };
+
+        dispatcher.dispatch(command);
     });
 });
 
