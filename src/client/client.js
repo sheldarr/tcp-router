@@ -1,8 +1,9 @@
 const net = require('net');
 const winston = require('winston');
 
+const Commands = require('./commands');
 const Dispatcher = require('./dispatcher');
-const RouterCommands = require('../router/commands');
+const Protocol = require('../protocol');
 
 function Client (serverAddress, port, onMessage) {
     const logger = new (winston.Logger)({
@@ -19,7 +20,7 @@ function Client (serverAddress, port, onMessage) {
         logger.info(`Connected to ${serverAddress}:${port}`);
 
         client.write(JSON.stringify({
-            type: RouterCommands.HANDSHAKE_REQUEST
+            type: Protocol.CREDENTIALS_REQUEST
         }));
     });
 
@@ -46,7 +47,7 @@ function Client (serverAddress, port, onMessage) {
 
         dispatcher.dispatch({
             message: message,
-            type: RouterCommands.BROADCAST
+            type: Commands.SEND_BROADCAST_REQUEST
         });
     };
 }

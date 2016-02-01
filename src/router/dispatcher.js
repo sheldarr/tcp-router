@@ -1,4 +1,6 @@
 const Commands = require('./commands');
+const GuidGenerator = require('../guidGenerator');
+const Protocol = require('../protocol');
 
 const store = require('./store');
 
@@ -7,7 +9,7 @@ function Dispatcher () {
         var state = store.getState();
 
         switch (command.type) {
-        case Commands.BROADCAST:
+        case Protocol.BROADCAST_REQUEST:
             state.clients.forEach(function (client) {
                 if (client === command.client) {
                     return;
@@ -15,28 +17,28 @@ function Dispatcher () {
 
                 client.write(JSON.stringify({
                     message: command.message,
-                    type: Commands.MESSAGE
+                    type: Protocol.BROADCAST_RESPONSE
                 }));
             });
-
             break;
 
-        case Commands.CONNECTION_CLOSED:
-            store.dispatch(command);
-            break;
+        case Protocol.CREDENTIALS_REQUEST:
+            var credentials = {
+                id: new Date().getTime(),
+                key: GuidGenerator.next()
+            };
 
-        case Commands.HANDSHAKE_REQUEST:
-            store.dispatch(command);
+            console.log(credentials);
+
+            store.dispatch({
+                type: Commands.ADD_CLIENT,
+                client: command.client,
+                credentials
+            });
 
             command.client.write(JSON.stringify({
-                type: Commands.HANDSHAKE_CONFIRMATION
-            }));
-
-            break;
-
-        case Commands.HEARTBEAT_REQUEST:
-            command.client.write(JSON.stringify({
-                type: Commands.HEARTBEAT_CONFIRMATION
+                type: Protocol.CREDENTIALS_RESPONSE,
+                credentials
             }));
 
             break;

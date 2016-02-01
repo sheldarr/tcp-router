@@ -1,31 +1,35 @@
 const Commands = require('./commands');
-const RouterCommands = require('../router/commands');
+const Protocol = require('../protocol');
+
+const store = require('./store');
 
 function Dispatcher (client, onMessage) {
     this.dispatch = (command) => {
         switch (command.type) {
 
-        case RouterCommands.BROADCAST:
+        case Commands.SEND_BROADCAST_REQUEST:
             client.write(JSON.stringify({
+                credentials: store.getState().credentials,
                 message: command.message,
-                type: RouterCommands.BROADCAST
+                type: Protocol.BROADCAST_REQUEST
             }));
             break;
 
-        case RouterCommands.MESSAGE:
+        case Commands.SEND_CREDENTIALS_REQUEST:
+            client.write(JSON.stringify({
+                type: Protocol.CREDENTIALS_REQUEST
+            }));
+            break;
+
+        case Protocol.BROADCAST_RESPONSE:
             onMessage(command.message);
             break;
 
-        case Commands.SEND_HANDSHAKE_REQUEST:
-            client.write(JSON.stringify({
-                type: RouterCommands.HANDSHAKE_REQUEST
-            }));
-            break;
-
-        case Commands.SEND_HEARTBEAT_REQUEST:
-            client.write(JSON.stringify({
-                type: RouterCommands.HEARTBEAT_REQUEST
-            }));
+        case Protocol.CREDENTIALS_RESPONSE:
+            store.dispatch({
+                type: Commands.SET_CREDENTIALS,
+                credentials: command.credentials
+            });
             break;
 
         default:

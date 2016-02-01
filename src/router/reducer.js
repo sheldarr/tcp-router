@@ -4,17 +4,17 @@ const Commands = require('./commands');
 const reducer = (state, command) => {
     switch (command.type) {
 
-    case Commands.CONNECTION_CLOSED:
-        return Object.assign({}, state, {
-            clients: _.remove(state.clients, (client) => { client === command.client; })
-        });
-
-    case Commands.HANDSHAKE_REQUEST:
+    case Commands.ADD_CLIENT:
         return Object.assign({}, state, {
             clients: [
                 command.client,
                 ...state.clients
             ]
+        });
+
+    case Commands.REMOVE_CLIENT:
+        return Object.assign({}, state, {
+            clients: _.remove(state.clients, (client) => { client === command.client; })
         });
 
     default:
