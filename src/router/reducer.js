@@ -12,6 +12,14 @@ const reducer = (state, command) => {
             ]
         });
 
+    case Commands.CREATE_SESSION:
+        return Object.assign({}, state, {
+            clients: [
+                command.session,
+                ...state.sessions
+            ]
+        });
+
     case Commands.REMOVE_CLIENT:
         return Object.assign({}, state, {
             clients: _.remove(state.clients, (client) => { client === command.client; })

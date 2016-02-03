@@ -22,13 +22,30 @@ function Dispatcher () {
             });
             break;
 
+        case Protocol.CREATE_SESSION_REQUEST:
+            var session = {
+                id: new Date().getTime(),
+                key: GuidGenerator.next()
+            };
+
+            store.dispatch({
+                type: Commands.CREATE_SESSION,
+                client: command.client,
+                session
+            });
+
+            command.client.write(JSON.stringify({
+                type: Protocol.CREATE_SESSION_RESPONSE,
+                session
+            }));
+
+            break;
+
         case Protocol.CREDENTIALS_REQUEST:
             var credentials = {
                 id: new Date().getTime(),
                 key: GuidGenerator.next()
             };
-
-            console.log(credentials);
 
             store.dispatch({
                 type: Commands.ADD_CLIENT,
