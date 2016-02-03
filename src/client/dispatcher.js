@@ -1,17 +1,29 @@
 const Commands = require('./commands');
 const Protocol = require('../protocol');
 
-const store = require('./store');
-
 function Dispatcher (client, onMessage) {
+    var state = {
+        credentials: {
+            id: 0,
+            key: ''
+        }
+    };
+
     this.dispatch = (command) => {
         switch (command.type) {
 
         case Commands.SEND_BROADCAST_REQUEST:
             client.write(JSON.stringify({
-                credentials: store.getState().credentials,
+                credentials: state.credentials,
                 message: command.message,
                 type: Protocol.BROADCAST_REQUEST
+            }));
+            break;
+
+        case Commands.SEND_CREATE_SESSION_REQUEST:
+            client.write(JSON.stringify({
+                credentials: state.credentials,
+                type: Protocol.CREATE_SESSION_REQUEST
             }));
             break;
 
@@ -26,8 +38,7 @@ function Dispatcher (client, onMessage) {
             break;
 
         case Protocol.CREDENTIALS_RESPONSE:
-            store.dispatch({
-                type: Commands.SET_CREDENTIALS,
+            state = Object.assign({}, state, {
                 credentials: command.credentials
             });
             break;

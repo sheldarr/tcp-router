@@ -25,9 +25,16 @@ function Client (serverAddress, port, onMessage) {
     });
 
     client.on('data', (data) => {
-        winston.info(`${serverAddress}:${port} > ${data}`);
+        logger.info(`${serverAddress}:${port} > ${data}`);
 
-        var command = Object.assign(JSON.parse(data), {
+        var response = JSON.parse(data);
+
+        if (response.error) {
+            logger.error(response.error);
+            return;
+        }
+
+        var command = Object.assign(response, {
             client
         });
 
@@ -48,6 +55,14 @@ function Client (serverAddress, port, onMessage) {
         dispatcher.dispatch({
             message: message,
             type: Commands.SEND_BROADCAST_REQUEST
+        });
+    };
+
+    this.createSession = () => {
+        logger.info(`${serverAddress}:${port} > ${Commands.CREATE_SESSION_REQUEST}`);
+
+        dispatcher.dispatch({
+            type: Commands.SEND_CREATE_SESSION_REQUEST
         });
     };
 }

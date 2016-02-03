@@ -1,7 +1,6 @@
 const net = require('net');
 const winston = require('winston');
 
-const Commands = require('./Commands');
 const Dispatcher = require('./Dispatcher');
 
 const port = 8080;

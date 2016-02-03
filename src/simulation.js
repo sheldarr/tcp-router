@@ -16,5 +16,14 @@ for (var i = 0; i < numberOfClients; i++) {
 const stdin = process.openStdin();
 
 stdin.on('data', (data) => {
-    clients[0].broadcast(data.toString());
+    var command = data.toString().replace(/[\r\n]/g, '');
+
+    switch (command) {
+    case 'CREATE_SESSION':
+        clients[0].createSession();
+        break;
+    default:
+        clients[0].broadcast(command);
+        break;
+    };
 });

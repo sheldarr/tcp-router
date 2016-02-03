@@ -1,13 +1,13 @@
-const Commands = require('./commands');
 const GuidGenerator = require('../guidGenerator');
 const Protocol = require('../protocol');
 
-const store = require('./store');
-
 function Dispatcher () {
-    this.dispatch = (command) => {
-        var state = store.getState();
+    var state = {
+        clients: [],
+        sessions: []
+    };
 
+    this.dispatch = (command) => {
         switch (command.type) {
         case Protocol.BROADCAST_REQUEST:
             state.clients.forEach(function (client) {
@@ -23,7 +23,7 @@ function Dispatcher () {
             break;
 
         case Protocol.CREATE_SESSION_REQUEST:
-            if (state.sessions.some((session) => { return session.owner === command.client; })) {
+            if (state.sessions.some((session) => { return session.owner === command.credentials.id; })) {
                 command.client.write(JSON.stringify({
                     error: Protocol.Errors.ALREADY_SESSION_OWNER,
                     type: Protocol.CREATE_SESSION_RESPONSE
@@ -32,7 +32,7 @@ function Dispatcher () {
                 return;
             };
 
-            if (state.sessions.some((session) => { return session.members.some((member) => { return member === command.client; }); })) {
+            if (state.sessions.some((session) => { return session.members.some((member) => { return member === command.credentials.id; }); })) {
                 command.client.write(JSON.stringify({
                     error: Protocol.Errors.ALREADY_SESSION_MEMBER,
                     type: Protocol.CREATE_SESSION_RESPONSE
@@ -44,13 +44,15 @@ function Dispatcher () {
             var session = {
                 id: new Date().getTime(),
                 key: GuidGenerator.next(),
-                owner: command.client,
-                members: [ command.client ]
+                owner: command.credentials.id,
+                members: [ command.credentials.id ]
             };
 
-            store.dispatch({
-                type: Commands.CREATE_SESSION,
-                session
+            state = Object.assign({}, state, {
+                sessions: [
+                    session,
+                    ...state.sessions
+                ]
             });
 
             command.client.write(JSON.stringify({
@@ -66,10 +68,11 @@ function Dispatcher () {
                 key: GuidGenerator.next()
             };
 
-            store.dispatch({
-                type: Commands.ADD_CLIENT,
-                client: command.client,
-                credentials
+            state = Object.assign({}, state, {
+                clients: [
+                    command.client,
+                    ...state.clients
+                ]
             });
 
             command.client.write(JSON.stringify({
