@@ -23,14 +23,33 @@ function Dispatcher () {
             break;
 
         case Protocol.CREATE_SESSION_REQUEST:
+            if (state.sessions.some((session) => { return session.owner === command.client; })) {
+                command.client.write(JSON.stringify({
+                    error: Protocol.Errors.ALREADY_SESSION_OWNER,
+                    type: Protocol.CREATE_SESSION_RESPONSE
+                }));
+
+                return;
+            };
+
+            if (state.sessions.some((session) => { return session.members.some((member) => { return member === command.client; }); })) {
+                command.client.write(JSON.stringify({
+                    error: Protocol.Errors.ALREADY_SESSION_MEMBER,
+                    type: Protocol.CREATE_SESSION_RESPONSE
+                }));
+
+                return;
+            };
+
             var session = {
                 id: new Date().getTime(),
-                key: GuidGenerator.next()
+                key: GuidGenerator.next(),
+                owner: command.client,
+                members: [ command.client ]
             };
 
             store.dispatch({
                 type: Commands.CREATE_SESSION,
-                client: command.client,
                 session
             });
 
