@@ -5,7 +5,8 @@
   "main": "./src/router/router.js",
   "scripts": {
     "start": "node ./src/router/router.js",
-    "simulation": "node ./src/simulation.js 4"
+    "simulation": "node ./src/simulation.js 4",
+    "test": "mocha --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,9 @@
     "url": "https://github.com/sheldarr/tcp-router/issues"
   },
   "devDependencies": {
-    "babel-eslint": "^5.0.0-beta6"
+    "babel-eslint": "^5.0.0-beta6",
+    "babel-register": "^6.5.1",
+    "mocha": "^2.4.5"
   },
   "dependencies": {
     "lodash": "^4.1.0",
