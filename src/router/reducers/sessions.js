@@ -1,8 +1,10 @@
 const ActionTypes = require('../constants/ActionTypes');
 
-module.exports = (state, action) => {
+const initialState = [];
+
+module.exports = (state = initialState, action) => {
     switch (action.type) {
-    case ActionTypes.CLIENT_DISCONNECTED:
+    case ActionTypes.CREATE_SESSION:
         return state;
     default:
         return state;
