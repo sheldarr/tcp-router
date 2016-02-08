@@ -1,7 +1,8 @@
 const net = require('net');
 const winston = require('winston');
 
-const Dispatcher = require('./Dispatcher');
+const Dispatcher = require('./dispatcher');
+const Protocol = require('../protocol');
 
 const port = 8080;
 
@@ -44,7 +45,7 @@ const server = net.createServer((connection) => {
 
         var command = {
             client,
-            type: Commands.CONNECTION_CLOSED
+            type: Protocol.CLIENT_DISCONNECTED
         };
 
         dispatcher.dispatch(command);

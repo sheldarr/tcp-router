@@ -22,6 +22,12 @@ function Dispatcher () {
             });
             break;
 
+        case Protocol.CLIENT_DISCONNECTED:
+            state = Object.assign({}, state, {
+                clients: state.clients.splice(state.clients.indexOf(command.client), 1)
+            });
+            break;
+
         case Protocol.CREATE_SESSION_REQUEST:
             if (state.sessions.some((session) => { return session.owner === command.credentials.id; })) {
                 command.client.write(JSON.stringify({
