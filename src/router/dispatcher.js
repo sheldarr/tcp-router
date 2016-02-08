@@ -2,7 +2,7 @@ const GuidGenerator = require('../guidGenerator');
 const Protocol = require('../protocol');
 
 function Dispatcher () {
-    var state = {
+    this.state = {
         clients: [],
         sessions: []
     };
@@ -10,7 +10,7 @@ function Dispatcher () {
     this.dispatch = (command) => {
         switch (command.type) {
         case Protocol.BROADCAST_REQUEST:
-            state.clients.forEach(function (client) {
+            this.state.clients.forEach(function (client) {
                 if (client === command.client) {
                     return;
                 }
@@ -23,13 +23,13 @@ function Dispatcher () {
             break;
 
         case Protocol.CLIENT_DISCONNECTED:
-            state = Object.assign({}, state, {
-                clients: state.clients.splice(state.clients.indexOf(command.client), 1)
+            this.state = Object.assign({}, this.state, {
+                clients: this.state.clients.splice(this.state.clients.indexOf(command.client), 1)
             });
             break;
 
         case Protocol.CREATE_SESSION_REQUEST:
-            if (state.sessions.some((session) => { return session.owner === command.credentials.id; })) {
+            if (this.state.sessions.some((session) => { return session.owner === command.credentials.id; })) {
                 command.client.write(JSON.stringify({
                     error: Protocol.Errors.ALREADY_SESSION_OWNER,
                     type: Protocol.CREATE_SESSION_RESPONSE
@@ -38,7 +38,7 @@ function Dispatcher () {
                 return;
             };
 
-            if (state.sessions.some((session) => { return session.members.some((member) => { return member === command.credentials.id; }); })) {
+            if (this.state.sessions.some((session) => { return session.members.some((member) => { return member === command.credentials.id; }); })) {
                 command.client.write(JSON.stringify({
                     error: Protocol.Errors.ALREADY_SESSION_MEMBER,
                     type: Protocol.CREATE_SESSION_RESPONSE
@@ -54,10 +54,10 @@ function Dispatcher () {
                 members: [ command.credentials.id ]
             };
 
-            state = Object.assign({}, state, {
+            this.state = Object.assign({}, this.state, {
                 sessions: [
                     session,
-                    ...state.sessions
+                    ...this.state.sessions
                 ]
             });
 
@@ -74,10 +74,10 @@ function Dispatcher () {
                 key: GuidGenerator.next()
             };
 
-            state = Object.assign({}, state, {
+            this.state = Object.assign({}, this.state, {
                 clients: [
                     command.client,
-                    ...state.clients
+                    ...this.state.clients
                 ]
             });
 
