@@ -1,11 +1,18 @@
 const ActionTypes = require('../constants/ActionTypes');
+const guidGenerator = require('../../guidGenerator');
 
 const initialState = [];
 
 module.exports = (state = initialState, action) => {
     switch (action.type) {
     case ActionTypes.CREATE_SESSION:
-        return state;
+        var session = {
+            id: new Date().getTime(),
+            key: guidGenerator.next(),
+            owner: action.credentials.id,
+            members: [ action.credentials.id ]
+        };
+        return [ session, ...state ];
     default:
         return state;
     }

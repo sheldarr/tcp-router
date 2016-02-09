@@ -1,4 +1,4 @@
-const GuidGenerator = {
+const guidGenerator = {
     s4 () {
         return Math.floor((1 + Math.random()) * 0x10000)
             .toString(16)
@@ -10,4 +10,4 @@ const GuidGenerator = {
     }
 };
 
-module.exports = GuidGenerator;
+module.exports = guidGenerator;

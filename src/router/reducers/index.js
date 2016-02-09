@@ -1,6 +1,7 @@
 const redux = require('redux');
-const commands = require('./commands');
+const clients = require('./clients');
+const sessions = require('./sessions');
 
 module.exports = redux.combineReducers({
-    commands
+    clients, sessions
 });

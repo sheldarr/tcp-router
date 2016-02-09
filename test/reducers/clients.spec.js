@@ -14,7 +14,7 @@ describe('clients reducer', () => {
         expect(clients([], {
             client: client,
             type: ActionTypes.ADD_CLIENT
-        })).toEqual([client]);
+        })).toInclude(client);
     });
 
     it('should handle DELETE_CLIENT', () => {
@@ -23,6 +23,6 @@ describe('clients reducer', () => {
         expect(clients([client], {
             client: client,
             type: ActionTypes.DELETE_CLIENT
-        })).toEqual([]);
+        })).toExclude(client);
     });
 });
