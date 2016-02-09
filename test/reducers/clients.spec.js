@@ -16,4 +16,13 @@ describe('clients reducer', () => {
             type: ActionTypes.ADD_CLIENT
         })).toEqual([client]);
     });
+
+    it('should handle DELETE_CLIENT', () => {
+        var client = new net.Socket();
+
+        expect(clients([client], {
+            client: client,
+            type: ActionTypes.DELETE_CLIENT
+        })).toEqual([]);
+    });
 });
