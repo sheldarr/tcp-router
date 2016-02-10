@@ -10,7 +10,7 @@ describe('sessions reducer', () => {
 
     it('should handle CREATE_SESSION', () => {
         var credentials = {
-            id: 'guid'
+            id: '93271708-2c79-4c68-b59a-d24385921fc3'
         };
         var sessionsBefore = [];
         var sessionsAfter = sessions(sessionsBefore, {
