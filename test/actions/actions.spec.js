@@ -13,4 +13,14 @@ describe('actions', () => {
             type: ActionTypes.ADD_CLIENT
         });
     });
+
+    it('deleteClient should create DELETE_CLIENT action', () => {
+        var client = new net.Socket();
+        var action = actions.deleteClient(client);
+
+        expect(action).toEqual({
+            client: client,
+            type: ActionTypes.DELETE_CLIENT
+        });
+    });
 });

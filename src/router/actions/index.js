@@ -6,5 +6,12 @@ module.exports = {
             type: ActionTypes.ADD_CLIENT,
             client: client
         };
+    },
+
+    deleteClient (client) {
+        return {
+            type: ActionTypes.DELETE_CLIENT,
+            client: client
+        };
     }
 };
