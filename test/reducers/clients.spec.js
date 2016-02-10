@@ -5,24 +5,33 @@ const net = require('net');
 
 describe('clients reducer', () => {
     it('should handle initial state', () => {
-        expect(clients(undefined, {})).toEqual([]);
+        var clientsBefore = undefined;
+        var clientsAfter = clients(clientsBefore, {});
+
+        expect(clientsAfter).toEqual([]);
     });
 
     it('should handle ADD_CLIENT', () => {
         var client = new net.Socket();
 
-        expect(clients([], {
+        var clientsBefore = [];
+        var clientsAfter = clients(clientsBefore, {
             client: client,
             type: ActionTypes.ADD_CLIENT
-        })).toInclude(client);
+        });
+
+        expect(clientsAfter).toInclude(client);
     });
 
     it('should handle DELETE_CLIENT', () => {
         var client = new net.Socket();
 
-        expect(clients([client], {
+        var clientsBefore = [client];
+        var clientsAfter = clients(clientsBefore, {
             client: client,
             type: ActionTypes.DELETE_CLIENT
-        })).toExclude(client);
+        });
+
+        expect(clientsAfter).toExclude(client);
     });
 });
