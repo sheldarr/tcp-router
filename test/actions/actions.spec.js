@@ -23,4 +23,16 @@ describe('actions', () => {
             type: ActionTypes.DELETE_CLIENT
         });
     });
+
+    it('createSession should create CREATE_SESSION action', () => {
+        var credentials = {
+            id: '93271708-2c79-4c68-b59a-d24385921fc3'
+        };
+        var action = actions.createSession(credentials);
+
+        expect(action).toEqual({
+            credentials: credentials,
+            type: ActionTypes.CREATE_SESSION
+        });
+    });
 });
