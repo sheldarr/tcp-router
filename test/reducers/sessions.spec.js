@@ -4,8 +4,10 @@ const ActionTypes = require('../../src/router/constants/ActionTypes');
 
 describe('sessions reducer', () => {
     it('should handle initial state', () => {
-        expect(sessions(undefined, {}))
-            .toEqual([]);
+        var sessionsBefore = undefined;
+        var sessionsAfter = sessions(sessionsBefore, {});
+
+        expect(sessionsAfter).toEqual([]);
     });
 
     it('should handle CREATE_SESSION', () => {
