@@ -1,4 +1,4 @@
-const ActionTypes = require('../contants/ActionTypes');
+const ActionTypes = require('../constants/ActionTypes');
 
 module.exports = {
     addClient (client) {
