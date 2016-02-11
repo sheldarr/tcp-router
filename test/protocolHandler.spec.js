@@ -59,4 +59,16 @@ describe('protocolHandler', () => {
             type: ActionTypes.DELETE_CLIENT
         });
     });
+
+    describe('should handle CREATE_SESSION_REQUEST', () => {
+        it('and return error new session', () => {
+            expect(true).toEqual(false);
+        });
+        it('and return error when client is already session owner', () => {
+            expect(true).toEqual(false);
+        });
+        it('and return error when client is already session member', () => {
+            expect(true).toEqual(false);
+        });
+    });
 });
