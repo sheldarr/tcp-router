@@ -1,8 +1,11 @@
+const ActionTypes = require('./constants/ActionTypes');
 const guidGenerator = require('../guidGenerator');
 const Protocol = require('./constants/Protocol');
 const ProtocolActions = Protocol.Actions;
 
-module.exports = (state, action) => {
+module.exports = (store, action) => {
+    var state = store.getState();
+
     switch (action.type) {
     case ProtocolActions.BROADCAST_REQUEST:
         state.clients.forEach(function (client) {
@@ -18,8 +21,9 @@ module.exports = (state, action) => {
         break;
 
     case ProtocolActions.CLIENT_DISCONNECTED:
-        state = Object.assign({}, state, {
-            clients: state.clients.splice(state.clients.indexOf(action.client), 1)
+        store.dispatch({
+            client: action.client,
+            type: ActionTypes.DELETE_CLIENT
         });
         break;
 
