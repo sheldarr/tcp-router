@@ -9,7 +9,8 @@ describe('protocolHandler', () => {
         var broadcaster = new net.Socket();
         var receiver = new net.Socket();
 
-        var spy = expect.spyOn(receiver, 'write');
+        var broadcasterSpy = expect.spyOn(broadcaster, 'write');
+        var receiverSpy = expect.spyOn(receiver, 'write');
 
         var state = {
             clients: [broadcaster, receiver]
@@ -23,7 +24,8 @@ describe('protocolHandler', () => {
 
         protocolHandler(state, action);
 
-        expect(spy).toHaveBeenCalled();
-        expect(spy.calls[0].arguments).toEqual([`{"message":"${action.message}","type":"${ProtocolActions.BROADCAST_RESPONSE}"}`]);
+        expect(broadcasterSpy).toNotHaveBeenCalled();
+        expect(receiverSpy).toHaveBeenCalled();
+        expect(receiverSpy.calls[0].arguments).toEqual([`{"message":"${action.message}","type":"${ProtocolActions.BROADCAST_RESPONSE}"}`]);
     });
 });
