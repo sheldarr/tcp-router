@@ -1,5 +1,5 @@
-const actions = require('../../src/router/actions');
-const ActionTypes = require('../../src/router/constants/ActionTypes');
+const actions = require('../../src/actions');
+const ActionTypes = require('../../src/constants/ActionTypes');
 const expect = require('expect');
 const net = require('net');
 

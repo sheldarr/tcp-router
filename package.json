@@ -2,9 +2,9 @@
   "name": "tcp-router",
   "version": "1.0.0",
   "description": "...",
-  "main": "./src/router/router.js",
+  "main": "./src/router.js",
   "scripts": {
-    "start": "node ./src/router/router.js",
+    "start": "node ./src/router.js",
     "simulation": "node ./src/simulation.js 4",
     "test": "mocha"
   },

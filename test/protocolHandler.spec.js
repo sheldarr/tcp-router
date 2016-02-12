@@ -1,7 +1,7 @@
-const ActionTypes = require('../src/router/constants/ActionTypes');
+const ActionTypes = require('../src/constants/ActionTypes');
 const expect = require('expect');
 const net = require('net');
-const Protocol = require('../src/router/constants/Protocol');
+const Protocol = require('../src/constants/Protocol');
 const ProtocolActions = Protocol.Actions;
 const proxyquire = require('proxyquire');
 
@@ -10,7 +10,7 @@ const credentials = {
     key: '93271708-2c79-4c68-b59a-d24385921fc3'
 };
 
-const protocolHandler = proxyquire('../src/router/protocolHandler', { './etc/credentialsGenerator': {
+const protocolHandler = proxyquire('../src/protocolHandler', { './etc/credentialsGenerator': {
     next: function () {
         return {
             id: '1455303267020',

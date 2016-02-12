@@ -1,6 +1,6 @@
 const expect = require('expect');
-const sessions = require('../../src/router/reducers/sessions');
-const ActionTypes = require('../../src/router/constants/ActionTypes');
+const sessions = require('../../src/reducers/sessions');
+const ActionTypes = require('../../src/constants/ActionTypes');
 
 describe('sessions reducer', () => {
     it('should handle initial state', () => {
