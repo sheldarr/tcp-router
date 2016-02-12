@@ -34,6 +34,13 @@ const server = net.createServer((connection) => {
 
     client.on('end', () => {
         logger.info(`Client ${client.name} disconnected`);
+
+        var command = {
+            client,
+            type: Protocol.CLIENT_DISCONNECTED
+        };
+
+        dispatcher.dispatch(command);
     });
 
     client.on('error', (error) => {
