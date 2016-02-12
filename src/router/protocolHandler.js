@@ -79,27 +79,6 @@ module.exports = (store, action) => {
             type: ProtocolActions.CREATE_SESSION_RESPONSE,
             session
         }));
-
-        break;
-
-    case ProtocolActions.CREDENTIALS_REQUEST:
-        var credentials = {
-            id: new Date().getTime(),
-            key: guidGenerator.next()
-        };
-
-        state = Object.assign({}, state, {
-            clients: [
-                action.client,
-                ...state.clients
-            ]
-        });
-
-        action.client.write(JSON.stringify({
-            type: ProtocolActions.CREDENTIALS_RESPONSE,
-            credentials
-        }));
-
         break;
 
     default:
