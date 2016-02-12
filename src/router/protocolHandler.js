@@ -20,6 +20,13 @@ module.exports = (store, action) => {
         });
         break;
 
+    case ProtocolActions.CLIENT_CONNECTED:
+        store.dispatch({
+            client: action.client,
+            type: ActionTypes.ADD_CLIENT
+        });
+        break;
+
     case ProtocolActions.CLIENT_DISCONNECTED:
         store.dispatch({
             client: action.client,

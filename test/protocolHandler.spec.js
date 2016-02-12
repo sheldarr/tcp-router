@@ -36,6 +36,30 @@ describe('protocolHandler', () => {
         }));
     });
 
+    it('should handle CLIENT_CONNECTED action', () => {
+        var connectedClient = new net.Socket();
+
+        var store = {
+            dispatch: expect.createSpy(),
+            getState: expect.createSpy().andReturn({
+                clients: []
+            })
+        };
+
+        var action = {
+            client: connectedClient,
+            type: ProtocolActions.CLIENT_CONNECTED
+        };
+
+        protocolHandler(store, action);
+
+        expect(store.dispatch).toHaveBeenCalled();
+        expect(store.dispatch.calls[0].arguments[0]).toEqual({
+            client: connectedClient,
+            type: ActionTypes.ADD_CLIENT
+        });
+    });
+
     it('should handle CLIENT_DISCONNECTED action', () => {
         var disconnectedClient = new net.Socket();
 
