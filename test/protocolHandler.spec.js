@@ -3,7 +3,21 @@ const expect = require('expect');
 const net = require('net');
 const Protocol = require('../src/router/constants/Protocol');
 const ProtocolActions = Protocol.Actions;
-const protocolHandler = require('../src/router/protocolHandler');
+const proxyquire = require('proxyquire');
+
+const credentials = {
+    id: '1455303267020',
+    key: '93271708-2c79-4c68-b59a-d24385921fc3'
+};
+
+const protocolHandler = proxyquire('../src/router/protocolHandler', { './etc/credentialsGenerator': {
+    next: function () {
+        return {
+            id: '1455303267020',
+            key: '93271708-2c79-4c68-b59a-d24385921fc3'
+        };
+    }
+}});
 
 describe('protocolHandler', () => {
     it('should handle BROADCAST_REQUEST action', () => {
@@ -38,6 +52,7 @@ describe('protocolHandler', () => {
 
     it('should handle CLIENT_CONNECTED action', () => {
         var connectedClient = new net.Socket();
+        var connectedClientSpy = expect.spyOn(connectedClient, 'write');
 
         var store = {
             dispatch: expect.createSpy(),
@@ -58,6 +73,13 @@ describe('protocolHandler', () => {
             client: connectedClient,
             type: ActionTypes.ADD_CLIENT
         });
+        expect(store.dispatch.calls[0].arguments[0].client.credentials).toEqual(credentials);
+
+        expect(connectedClientSpy).toHaveBeenCalled();
+        expect(connectedClientSpy.calls[0].arguments[0]).toEqual(JSON.stringify({
+            credentials: credentials,
+            type: ProtocolActions.CREDENTIALS_ASSIGNED
+        }));
     });
 
     it('should handle CLIENT_DISCONNECTED action', () => {
@@ -81,18 +103,6 @@ describe('protocolHandler', () => {
         expect(store.dispatch.calls[0].arguments[0]).toEqual({
             client: disconnectedClient,
             type: ActionTypes.DELETE_CLIENT
-        });
-    });
-
-    describe('should handle CREATE_SESSION_REQUEST', () => {
-        it('and return error new session', () => {
-            expect(true).toEqual(false);
-        });
-        it('and return error when client is already session owner', () => {
-            expect(true).toEqual(false);
-        });
-        it('and return error when client is already session member', () => {
-            expect(true).toEqual(false);
         });
     });
 });

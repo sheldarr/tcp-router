@@ -1,5 +1,6 @@
 const ActionTypes = require('./constants/ActionTypes');
-const guidGenerator = require('../guidGenerator');
+const credentialsGenerator = require('./etc/credentialsGenerator');
+const guidGenerator = require('./etc/guidGenerator');
 const Protocol = require('./constants/Protocol');
 const ProtocolActions = Protocol.Actions;
 
@@ -21,10 +22,17 @@ module.exports = (store, action) => {
         break;
 
     case ProtocolActions.CLIENT_CONNECTED:
+        action.client.credentials = credentialsGenerator.next();
+
         store.dispatch({
             client: action.client,
             type: ActionTypes.ADD_CLIENT
         });
+
+        action.client.write(JSON.stringify({
+            credentials: action.client.credentials,
+            type: ProtocolActions.CREDENTIALS_ASSIGNED
+        }));
         break;
 
     case ProtocolActions.CLIENT_DISCONNECTED:

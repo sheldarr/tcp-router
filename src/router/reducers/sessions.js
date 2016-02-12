@@ -1,5 +1,5 @@
 const ActionTypes = require('../constants/ActionTypes');
-const guidGenerator = require('../../guidGenerator');
+const guidGenerator = require('../etc/guidGenerator');
 
 const initialState = [];
 
