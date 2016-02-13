@@ -42,10 +42,7 @@ describe('protocolHandler', () => {
 
         expect(broadcasterSpy).toNotHaveBeenCalled();
         expect(receiverSpy).toHaveBeenCalled();
-        expect(receiverSpy.calls[0].arguments[0]).toEqual(JSON.stringify({
-            message: action.message,
-            type: ProtocolActions.BROADCAST_RESPONSE
-        }));
+        expect(receiverSpy.calls[0].arguments[0]).toEqual(JSON.stringify(actions.broadcastResponse(action.message)));
     });
 
     it('should handle CLIENT_CONNECTED action', () => {
