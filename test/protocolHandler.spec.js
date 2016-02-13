@@ -24,6 +24,8 @@ describe('protocolHandler', () => {
         var broadcaster = new net.Socket();
         var receiver = new net.Socket();
 
+        var message = 'message';
+
         var broadcasterSpy = expect.spyOn(broadcaster, 'write');
         var receiverSpy = expect.spyOn(receiver, 'write');
 
@@ -34,11 +36,7 @@ describe('protocolHandler', () => {
             })
         };
 
-        var action = {
-            broadcaster,
-            message: 'message',
-            type: ProtocolActions.BROADCAST_REQUEST
-        };
+        var action = actions.broadcastRequest(broadcaster, message);
 
         protocolHandler(store, action);
 
