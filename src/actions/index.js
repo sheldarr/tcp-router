@@ -1,24 +1,32 @@
 const ActionTypes = require('../constants/ActionTypes');
+const ProtocolActions = require('../constants/Protocol').Actions;
 
 module.exports = {
     addClient (client) {
         return {
-            client: client,
+            client,
             type: ActionTypes.ADD_CLIENT
         };
     },
 
-    deleteClient (client) {
+    clientConnected (client) {
         return {
-            client: client,
-            type: ActionTypes.DELETE_CLIENT
+            client,
+            type: ProtocolActions.CLIENT_CONNECTED
         };
     },
 
     createSession (credentials) {
         return {
-            credentials: credentials,
+            credentials,
             type: ActionTypes.CREATE_SESSION
+        };
+    },
+
+    deleteClient (client) {
+        return {
+            client,
+            type: ActionTypes.DELETE_CLIENT
         };
     }
 };

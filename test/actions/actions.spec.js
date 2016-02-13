@@ -1,5 +1,6 @@
 const actions = require('../../src/actions');
 const ActionTypes = require('../../src/constants/ActionTypes');
+const ProtocolActions = require('../../src/constants/Protocol').Actions;
 const expect = require('expect');
 const net = require('net');
 
@@ -14,13 +15,13 @@ describe('actions', () => {
         });
     });
 
-    it('deleteClient should create DELETE_CLIENT action', () => {
+    it('clientConnected should create CLIENT_CONNECTED action', () => {
         var client = new net.Socket();
-        var action = actions.deleteClient(client);
+        var action = actions.clientConnected(client);
 
         expect(action).toEqual({
             client: client,
-            type: ActionTypes.DELETE_CLIENT
+            type: ProtocolActions.CLIENT_CONNECTED
         });
     });
 
@@ -33,6 +34,16 @@ describe('actions', () => {
         expect(action).toEqual({
             credentials: credentials,
             type: ActionTypes.CREATE_SESSION
+        });
+    });
+
+    it('deleteClient should create DELETE_CLIENT action', () => {
+        var client = new net.Socket();
+        var action = actions.deleteClient(client);
+
+        expect(action).toEqual({
+            client: client,
+            type: ActionTypes.DELETE_CLIENT
         });
     });
 });
