@@ -59,13 +59,27 @@ describe('actions', () => {
 
     it('createSession should create CREATE_SESSION action', () => {
         var credentials = {
-            id: '93271708-2c79-4c68-b59a-d24385921fc3'
+            id: '1455303267020',
+            key: '93271708-2c79-4c68-b59a-d24385921fc3'
         };
         var action = actions.createSession(credentials);
 
         expect(action).toEqual({
             credentials: credentials,
             type: ActionTypes.CREATE_SESSION
+        });
+    });
+
+    it('credentialsAssigned should create CREDENTIALS_ASSIGNED action', () => {
+        var credentials = {
+            id: '1455303267020',
+            key: '93271708-2c79-4c68-b59a-d24385921fc3'
+        };
+        var action = actions.credentialsAssigned(credentials);
+
+        expect(action).toEqual({
+            credentials: credentials,
+            type: ProtocolActions.CREDENTIALS_ASSIGNED
         });
     });
 

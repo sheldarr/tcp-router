@@ -45,6 +45,13 @@ module.exports = {
         };
     },
 
+    credentialsAssigned (credentials) {
+        return {
+            credentials,
+            type: ProtocolActions.CREDENTIALS_ASSIGNED
+        };
+    },
+
     deleteClient (client) {
         return {
             client,
