@@ -1,4 +1,4 @@
-const ActionTypes = require('./constants/ActionTypes');
+const actions = require('./actions');
 const credentialsGenerator = require('./etc/credentialsGenerator');
 const guidGenerator = require('./etc/guidGenerator');
 const Protocol = require('./constants/Protocol');
@@ -24,10 +24,7 @@ module.exports = (store, action) => {
     case ProtocolActions.CLIENT_CONNECTED:
         action.client.credentials = credentialsGenerator.next();
 
-        store.dispatch({
-            client: action.client,
-            type: ActionTypes.ADD_CLIENT
-        });
+        store.dispatch(actions.addClient(action.client));
 
         action.client.write(JSON.stringify({
             credentials: action.client.credentials,
@@ -36,10 +33,7 @@ module.exports = (store, action) => {
         break;
 
     case ProtocolActions.CLIENT_DISCONNECTED:
-        store.dispatch({
-            client: action.client,
-            type: ActionTypes.DELETE_CLIENT
-        });
+        store.dispatch(actions.deleteClient(action.client));
         break;
 
     case ProtocolActions.CREATE_SESSION_REQUEST:

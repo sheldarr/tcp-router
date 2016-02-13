@@ -1,3 +1,4 @@
+const actions = require('../src/actions');
 const ActionTypes = require('../src/constants/ActionTypes');
 const expect = require('expect');
 const net = require('net');
@@ -69,10 +70,7 @@ describe('protocolHandler', () => {
         protocolHandler(store, action);
 
         expect(store.dispatch).toHaveBeenCalled();
-        expect(store.dispatch.calls[0].arguments[0]).toEqual({
-            client: connectedClient,
-            type: ActionTypes.ADD_CLIENT
-        });
+        expect(store.dispatch.calls[0].arguments[0]).toEqual(actions.addClient(connectedClient));
         expect(store.dispatch.calls[0].arguments[0].client.credentials).toEqual(credentials);
 
         expect(connectedClientSpy).toHaveBeenCalled();
