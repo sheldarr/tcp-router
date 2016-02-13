@@ -62,10 +62,7 @@ describe('protocolHandler', () => {
             })
         };
 
-        var action = {
-            client: connectedClient,
-            type: ProtocolActions.CLIENT_CONNECTED
-        };
+        var action = actions.clientConnected(connectedClient);
 
         protocolHandler(store, action);
 
