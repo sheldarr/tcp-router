@@ -1,8 +1,6 @@
 const actions = require('../src/actions');
 const expect = require('expect');
 const net = require('net');
-const Protocol = require('../src/constants/Protocol');
-const ProtocolActions = Protocol.Actions;
 const proxyquire = require('proxyquire');
 
 const credentials = {
@@ -65,10 +63,7 @@ describe('protocolHandler', () => {
         expect(store.dispatch.calls[0].arguments[0].client.credentials).toEqual(credentials);
 
         expect(connectedClientSpy).toHaveBeenCalled();
-        expect(connectedClientSpy.calls[0].arguments[0]).toEqual(JSON.stringify({
-            credentials: credentials,
-            type: ProtocolActions.CREDENTIALS_ASSIGNED
-        }));
+        expect(connectedClientSpy.calls[0].arguments[0]).toEqual(JSON.stringify(actions.credentialsAssigned(credentials)));
     });
 
     it('should handle CLIENT_DISCONNECTED action', () => {
