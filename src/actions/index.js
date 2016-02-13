@@ -17,6 +17,13 @@ module.exports = {
         };
     },
 
+    broadcastResponse (message) {
+        return {
+            message,
+            type: ProtocolActions.BROADCAST_RESPONSE
+        };
+    },
+
     clientConnected (client) {
         return {
             client,

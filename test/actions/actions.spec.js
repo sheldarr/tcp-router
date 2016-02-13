@@ -27,6 +27,16 @@ describe('actions', () => {
         });
     });
 
+    it('broadcastResponse should create BROADCAST_RESPONSE action', () => {
+        var message = 'message';
+        var action = actions.broadcastResponse(message);
+
+        expect(action).toEqual({
+            message,
+            type: ProtocolActions.BROADCAST_RESPONSE
+        });
+    });
+
     it('clientConnected should create CLIENT_CONNECTED action', () => {
         var client = new net.Socket();
         var action = actions.clientConnected(client);
