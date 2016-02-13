@@ -87,10 +87,7 @@ describe('protocolHandler', () => {
             })
         };
 
-        var action = {
-            client: disconnectedClient,
-            type: ProtocolActions.CLIENT_DISCONNECTED
-        };
+        var action = actions.clientDisconnected(disconnectedClient);
 
         protocolHandler(store, action);
 
