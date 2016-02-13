@@ -15,6 +15,18 @@ describe('actions', () => {
         });
     });
 
+    it('broadcastRequest should create BROADCAST_REQUEST action', () => {
+        var broadcaster = new net.Socket();
+        var message = 'message';
+        var action = actions.broadcastRequest(broadcaster, message);
+
+        expect(action).toEqual({
+            broadcaster,
+            message,
+            type: ProtocolActions.BROADCAST_REQUEST
+        });
+    });
+
     it('clientConnected should create CLIENT_CONNECTED action', () => {
         var client = new net.Socket();
         var action = actions.clientConnected(client);

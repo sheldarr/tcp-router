@@ -9,6 +9,14 @@ module.exports = {
         };
     },
 
+    broadcastRequest (broadcaster, message) {
+        return {
+            broadcaster,
+            message,
+            type: ProtocolActions.BROADCAST_REQUEST
+        };
+    },
+
     clientConnected (client) {
         return {
             client,
