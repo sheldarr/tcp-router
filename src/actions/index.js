@@ -16,6 +16,13 @@ module.exports = {
         };
     },
 
+    clientDisconnected (client) {
+        return {
+            client,
+            type: ProtocolActions.CLIENT_DISCONNECTED
+        };
+    },
+
     createSession (credentials) {
         return {
             credentials,

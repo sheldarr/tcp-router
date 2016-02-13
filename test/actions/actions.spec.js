@@ -25,6 +25,16 @@ describe('actions', () => {
         });
     });
 
+    it('clientDisconnected should create CLIENT_DISCONNECTED action', () => {
+        var client = new net.Socket();
+        var action = actions.clientDisconnected(client);
+
+        expect(action).toEqual({
+            client: client,
+            type: ProtocolActions.CLIENT_DISCONNECTED
+        });
+    });
+
     it('createSession should create CREATE_SESSION action', () => {
         var credentials = {
             id: '93271708-2c79-4c68-b59a-d24385921fc3'
