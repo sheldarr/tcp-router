@@ -1,5 +1,4 @@
 const actions = require('../src/actions');
-const ActionTypes = require('../src/constants/ActionTypes');
 const expect = require('expect');
 const net = require('net');
 const Protocol = require('../src/constants/Protocol');
@@ -92,9 +91,6 @@ describe('protocolHandler', () => {
         protocolHandler(store, action);
 
         expect(store.dispatch).toHaveBeenCalled();
-        expect(store.dispatch.calls[0].arguments[0]).toEqual({
-            client: disconnectedClient,
-            type: ActionTypes.DELETE_CLIENT
-        });
+        expect(store.dispatch.calls[0].arguments[0]).toEqual(actions.deleteClient(disconnectedClient));
     });
 });
